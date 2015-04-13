@@ -81,7 +81,7 @@ except NameError:
 
 def readAHFascii():
     halocat = {}
-    timesnap = numpy.loadtxt(SNAPfile)
+    timesnap = numpy.genfromtxt(SNAPfile)
     for time in timesnap:
         zstring = "%.3f" % (time[2])
         #print zstring[len(zstring)-1]
