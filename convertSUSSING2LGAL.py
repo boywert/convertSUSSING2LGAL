@@ -122,7 +122,8 @@ def readAHFascii():
                 data_tmp.append(data)
                 data = data_tmp
 
-            for halo in data:
+            for iihalo in range(len(data)):
+                halo = data[iihalo]
                 hid = long(halo[halostruct['ID']])
                 #print hid
                 halocat[hid] = {}
