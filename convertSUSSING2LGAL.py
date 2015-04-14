@@ -65,6 +65,18 @@ FileOut = convert_config.FileOut
 FileOut2 = convert_config.FileOut2
 spin_model = convert_config.spin_model
 
+halostruct_file=convert_config.halostruct_file
+halostruct_name = halostruct_file
+
+for k, v in mapping.iteritems():
+    halostruct_name = halostruct_name.replace(k, v) 
+
+
+os.system("cp "+halostruct_file+" "+configfolder+"/"+halostruct_name+".py")
+halo_config = __import__(halostruct_name)
+
+halostruct = halo_config.halostruct
+
 os.system("mkdir -p "+os.path.dirname(FileOut))
 
 #check for nifty wrong mass definition
@@ -102,8 +114,8 @@ def readAHFascii():
         print "Reading "+filename
         stat = os.stat(filename)
         #print stat.st_size
-        if(stat.st_size > 384):
-            data = numpy.loadtxt(filename)
+        data = numpy.genfromtxt(filename)
+        if(len(data) > 0):
             shape = data.shape
             if (len(shape) == 1) & (shape[0] > 1):
                 data_tmp = []
@@ -111,37 +123,56 @@ def readAHFascii():
                 data = data_tmp
 
             for halo in data:
-                hid = long(halo[0])
+                hid = long(halo[halostruct['ID']])
                 #print hid
                 halocat[hid] = {}
                 halocat[hid]["Redshift"] = time[2];
-                halocat[hid]["UID"] = long(halo[0])
+                halocat[hid]["UID"] = long(halo[halostruct['ID']])
                 halocat[hid]["ID"] = hid
-                halocat[hid]["M_bound"] = halo[3]*Msun2Gadget
-                halocat[hid]["R_bound"] = halo[11]*kpc2Mpc
-
-                if(halo[44] < 1.0e34):
-                    halocat[hid]["M_200Mean"] = halo[44]*Msun2Gadget
+                
+                if("Mbound" in halostruct):
+                    halocat[hid]["M_bound"] = halo["Mbound"]*Msun2Gadget
+                else:
+                    halocat[hid]["M_bound"] = 0.
+                    
+                if("Rbound" in halostruct):
+                    halocat[hid]["R_bound"] = halo[halostruct["Rbound"]]*kpc2Mpc
+                else:
+                    halocat[hid]["R_bound"] = 0.
+                    
+                if("M200b" in halostruct):
+                    if(halo[halostruct["M200b"]] < 1.0e34):
+                        halocat[hid]["M_200Mean"] = halo[halostruct['M200b']]*Msun2Gadget
+                    else:
+                        halocat[hid]["M_200Mean"] = 0.
                 else:
                     halocat[hid]["M_200Mean"] = 0.
 
-                if(halo[45] < 1.0e34):
-                    halocat[hid]["M_200Crit"] = halo[45]*Msun2Gadget
+                if("M200c" in halostruct):
+                    if(halo[halostruct["M200c"]] < 1.0e34):
+                        halocat[hid]["M_200Crit"] = halo[halostruct['M200c']]*Msun2Gadget
+                    else:
+                        halocat[hid]["M_200Crit"] = 0.
                 else:
                     halocat[hid]["M_200Crit"] = 0.
 
-                if(halo[46] < 1.0e34):
-                    halocat[hid]["M_TopHat"] =  halo[46]*Msun2Gadget
+                if("Mvir" in halostruct):
+                    if(halo[halostruct["Mvir"]] < 1.0e34):
+                        halocat[hid]["M_TopHat"] =  halo[halostruct['Mvir']]*Msun2Gadget
+                    else:
+                        halocat[hid]["M_TopHat"] = 0.
                 else:
                     halocat[hid]["M_TopHat"] = 0.
-
-
-                if(halo[43] < 1.0e34):
-                    halocat[hid]["M_fof"] = halo[43]*Msun2Gadget
+                    
+                if("Mfof" in halostruct):
+                    if(halo[halostruct['Mfof']] < 1.0e34):
+                        halocat[hid]["M_fof"] = halo[halostruct['Mfof']]*Msun2Gadget
+                    else:
+                        halocat[hid]["M_fof"] = 0.
                 else:
                     halocat[hid]["M_fof"] = 0.
-
                 massref = {}
+                
                 massref["M_200Mean"] = halocat[hid]["M_200Mean"]
                 massref["M_200Crit"] = halocat[hid]["M_200Crit"]
                 massref["M_TopHat"] = halocat[hid]["M_TopHat"]
@@ -155,12 +186,12 @@ def readAHFascii():
                     
                 
                 
-                halocat[hid]["Len"] = halo[4]
-                halocat[hid]["Pos"] = (halo[5]*kpc2Mpc,halo[6]*kpc2Mpc,halo[7]*kpc2Mpc)
-                halocat[hid]["Vel"] = (halo[8],halo[9],halo[10])
-                halocat[hid]["Vmax"] = halo[16]
-                halocat[hid]["VelDisp"] = halo[18]
-                lambda_bullock = halo[19]
+                halocat[hid]["Len"] = halo[halostruct["npart"]]
+                halocat[hid]["Pos"] = (halo[halostruct['Xc']]*kpc2Mpc,halo[halostruct['Yc']]*kpc2Mpc,halo[halostruct['Zc']]*kpc2Mpc)
+                halocat[hid]["Vel"] = (halo[halostruct['VXc']],halo[halostruct['VYc']],halo[halostruct['VZc']])
+                halocat[hid]["Vmax"] = halo[halostruct['Vmax']]
+                halocat[hid]["VelDisp"] = halo[halostruct['sigV']]
+                lambda_bullock = halo[halostruct['lambda']]
                 # 
                 # 
                 
@@ -182,7 +213,7 @@ def readAHFascii():
                 J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
                 
                 #halocat[hid]["TotalEnergy"] = total_energy
-                halocat[hid]["Spin"] = (halo[21]*J,halo[22]*J,halo[23]*J)
+                halocat[hid]["Spin"] = (halo[halostruct['Lx']]*J,halo[halostruct['Ly']]*J,halo[halostruct['Lz']]*J)
                 halocat[hid]["FirstProgenitor"] = -1
                 halocat[hid]["NextProgenitor"] = -1
                 halocat[hid]["Descendant"] = -1
