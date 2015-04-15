@@ -219,8 +219,13 @@ def readAHFascii():
                 
                 
                 halocat[hid]["Len"] = halo[halostruct["npart"]]
-                halocat[hid]["Pos"] = (halo[halostruct['Xc']]*kpc2Mpc,halo[halostruct['Yc']]*kpc2Mpc,halo[halostruct['Zc']]*kpc2Mpc)
-                halocat[hid]["Vel"] = (halo[halostruct['VXc']],halo[halostruct['VYc']],halo[halostruct['VZc']])
+                halocat[hid]["Pos"][0] = halo[halostruct['Xc']]*kpc2Mpc
+                halocat[hid]['Pos'][1] = halo[halostruct['Yc']]*kpc2Mpc
+                halocat[hid]['Pos'][2] = halo[halostruct['Zc']]*kpc2Mpc
+                halocat[hid]["Vel"][0] = halo[halostruct['VXc']]
+                halocat[hid]["Vel"][1] = halo[halostruct['VYc']]
+                halocat[hid]["Vel"][2] = halo[halostruct['VZc']]
+                
                 halocat[hid]["Vmax"] = halo[halostruct['Vmax']]
                 halocat[hid]["VelDisp"] = halo[halostruct['sigV']]
                 lambda_bullock = halo[halostruct['lambda']]
@@ -243,7 +248,10 @@ def readAHFascii():
                 J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
                 
                 #halocat[hid]["TotalEnergy"] = total_energy
-                halocat[hid]["Spin"] = (halo[halostruct['Lx']]*J,halo[halostruct['Ly']]*J,halo[halostruct['Lz']]*J)
+                halocat[hid]["Spin"][0] = halo[halostruct['Lx']]*J
+                halocat[hid]["Spin"][1] = halo[halostruct['Ly']]*J
+                halocat[hid]["Spin"][2] = halo[halostruct['Lz']]*J
+                
                 halocat[hid]["FirstProgenitor"] = -1
                 halocat[hid]["NextProgenitor"] = -1
                 halocat[hid]["Descendant"] = -1
