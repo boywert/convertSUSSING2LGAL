@@ -114,7 +114,7 @@ def readAHFascii():
         print "Reading "+filename
         stat = os.stat(filename)
         #print stat.st_size
-        del(data)
+        data = 0
         data = numpy.genfromtxt(filename)
         if(len(data) > 0):
             shape = data.shape
