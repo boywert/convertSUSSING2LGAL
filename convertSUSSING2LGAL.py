@@ -30,7 +30,8 @@ halo_dt = numpy.dtype([
     ('M_fof',numpy.float32,1),
     ('Pos',numpy.float32,3),
     ('M_bound',numpy.float32,1),
-    ('Mvir',numpy.float32,1)
+    ('Mvir',numpy.float32,1),
+    ('Rvir',numpy.float32,1)
 ])
 
 
