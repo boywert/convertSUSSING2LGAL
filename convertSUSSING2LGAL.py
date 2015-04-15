@@ -94,7 +94,7 @@ SNAPfile = convert_config.SNAPfile
 FileOut = convert_config.FileOut
 FileOut2 = convert_config.FileOut2
 spin_model = convert_config.spin_model
-lastsnap = 0
+lastsnap = 107
 halostruct_file=convert_config.halostruct_file
 halostruct_name = halostruct_file
 
