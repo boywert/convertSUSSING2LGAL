@@ -5,6 +5,34 @@ import struct
 import copy
 import sys
 import resource
+halo_dt = numpy.dtype([
+    ('VelDisp',numpy.float32,1),
+    ('R_bound',numpy.float32,1),
+    ('Vel',numpy.float32,3),
+    ('SnapNum',numpy.int64,1),
+    ('UID',numpy.int64,1),
+    ('Len',numpy.int64,1),
+    ('M_200Crit',numpy.float32,1),
+    ('HostHalo',numpy.int64,1),
+    ('TreeNr',numpy.int64,1),
+    ('Vmax',numpy.float32,1),
+    ('Spin',numpy.float32,3),
+    ('Descendant',numpy.int64,1),
+    ('NextHalo',numpy.int64,1),
+    ('NextProgenitor',numpy.int64,1),
+    ('FirstProgenitor',numpy.int64,1),
+    ('M_200Mean',numpy.float32,1),
+    ('HaloNr',numpy.int64,1),
+    ('movetonew',numpy.int64,1),
+    ('M_TopHat',numpy.float32,1),
+    ('ID',numpy.int64,1),
+    ('Redshift',numpy.float32,1),
+    ('M_fof',numpy.float32,1),
+    ('Pos',numpy.float32,3),
+    ('M_bound',numpy.float32,1),
+    ('Mvir',numpy.float32,1)
+])
+
 
 print "This is the name of the script: ", sys.argv[0]
 print "Number of arguments: ", len(sys.argv)
@@ -128,7 +156,7 @@ def readAHFascii():
                 hid = long(halo[halostruct['ID']])
                 #print hid
                 
-                halocat[hid] = {}
+                halocat[hid] = numpy.zeros(1,dtype=halo_dt)[0]
                 
                 halocat[hid]["Redshift"] = time[2];
                 halocat[hid]["UID"] = long(halo[halostruct['ID']])
@@ -229,7 +257,6 @@ def readAHFascii():
                 halocat[hid]["TreeNr"] = -1
                 halocat[hid]["movetonew"] = -1
 
-                print halocat[hid].keys()
     print "Make host-sub structures ..."
     for haloc in halocat.iterkeys():
         #print haloc
