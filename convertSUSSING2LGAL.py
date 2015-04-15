@@ -4,7 +4,7 @@ import math
 import struct
 import copy
 import sys
-
+import resource
 
 print "This is the name of the script: ", sys.argv[0]
 print "Number of arguments: ", len(sys.argv)
@@ -121,7 +121,8 @@ def readAHFascii():
                 data_tmp = []
                 data_tmp.append(data)
                 data = data_tmp
-
+            print "...",len(data)
+            print "MEmory used:",resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
             for iihalo in range(len(data)):
                 halo = data[iihalo]
                 hid = long(halo[halostruct['ID']])
