@@ -126,6 +126,7 @@ def readAHFascii():
                 print "halo cat:",sys.getsizeof(halocat)
                 halo = data[iihalo]
                 hid = long(halo[halostruct['ID']])
+                print hid
                 #print hid
                 halocat[hid] = {}
                 
