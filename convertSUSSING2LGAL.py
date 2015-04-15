@@ -122,10 +122,8 @@ def readAHFascii():
                 data_tmp = []
                 data_tmp.append(data)
                 data = data_tmp
-            print "...",len(data)
-            print "MEmory used:",resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-            print "halo cat:",sys.getsizeof(halocat)
             for iihalo in range(len(data)):
+                print "halo cat:",sys.getsizeof(halocat)
                 halo = data[iihalo]
                 hid = long(halo[halostruct['ID']])
                 #print hid
