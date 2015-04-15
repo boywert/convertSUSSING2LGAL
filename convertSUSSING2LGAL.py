@@ -18,6 +18,7 @@ halo_dt = numpy.dtype([
     ('Vmax',numpy.float32,1),
     ('Spin',numpy.float32,3),
     ('Descendant',numpy.int64,1),
+    ('MainHalo',numpy.int64,1),
     ('NextHalo',numpy.int64,1),
     ('NextProgenitor',numpy.int64,1),
     ('FirstProgenitor',numpy.int64,1),
