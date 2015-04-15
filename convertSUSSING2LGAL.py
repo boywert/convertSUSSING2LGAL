@@ -127,13 +127,13 @@ def readAHFascii():
                 halo = data[iihalo]
                 hid = long(halo[halostruct['ID']])
                 #print hid
-
+                
                 halocat[hid] = {}
                 
                 halocat[hid]["Redshift"] = time[2];
                 halocat[hid]["UID"] = long(halo[halostruct['ID']])
                 halocat[hid]["ID"] = hid
-                
+
                 if("Mbound" in halostruct):
                     halocat[hid]["M_bound"] = halo["Mbound"]*Msun2Gadget
                 else:
@@ -196,8 +196,6 @@ def readAHFascii():
                 halocat[hid]["Vmax"] = halo[halostruct['Vmax']]
                 halocat[hid]["VelDisp"] = halo[halostruct['sigV']]
                 lambda_bullock = halo[halostruct['lambda']]
-                # 
-                # 
                 
                 if(spin_model == 99): # Boyd's stupid model
                     lambda_bullock = 0.02
@@ -230,7 +228,8 @@ def readAHFascii():
                 halocat[hid]["HaloNr"] = -1
                 halocat[hid]["TreeNr"] = -1
                 halocat[hid]["movetonew"] = -1
-                # print halocat[hid]['Spin'] 
+
+                print halocat[hid].keys()
     print "Make host-sub structures ..."
     for haloc in halocat.iterkeys():
         #print haloc
