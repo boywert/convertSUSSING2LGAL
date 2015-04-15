@@ -116,6 +116,7 @@ def readAHFascii():
         #print stat.st_size
         data = 0
         data = numpy.genfromtxt(filename)
+        print "halo cat:",sys.getsizeof(halocat),len(halocat)
         if(len(data) > 0):
             shape = data.shape
             if (len(shape) == 1) & (shape[0] > 1):
@@ -123,11 +124,10 @@ def readAHFascii():
                 data_tmp.append(data)
                 data = data_tmp
             for iihalo in range(len(data)):
-                print "halo cat:",sys.getsizeof(halocat),len(halocat)
                 halo = data[iihalo]
                 hid = long(halo[halostruct['ID']])
                 print hid
-                #print hid
+
                 halocat[hid] = {}
                 
                 halocat[hid]["Redshift"] = time[2];
