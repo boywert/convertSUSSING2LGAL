@@ -73,7 +73,7 @@ global Msun2Gadget
 global kg2Msun
 global NFILES
 global spin_model
-
+global lastsnap
 
 NFILES = 8
 G = 6.67384e-11 # m^3/(kgs^2)
@@ -94,7 +94,7 @@ SNAPfile = convert_config.SNAPfile
 FileOut = convert_config.FileOut
 FileOut2 = convert_config.FileOut2
 spin_model = convert_config.spin_model
-
+lastsnap = 0
 halostruct_file=convert_config.halostruct_file
 halostruct_name = halostruct_file
 
@@ -124,6 +124,7 @@ except NameError:
 def readAHFascii():
     halocat = {}
     timesnap = numpy.genfromtxt(SNAPfile)
+    lastsnap = long(timesnap[len(timesnap)-1][0])
     for time in timesnap:
         zstring = "%.3f" % (time[2])
         #print zstring[len(zstring)-1]
@@ -355,7 +356,7 @@ def outputtrees(halocat2,fileout,fileout2):
     print "start outputting trees"
     for haloid in halocat.iterkeys():
         halo = halocat[haloid]
-        if(halo["SnapNum"] == 61) & (halo["MainHalo"] == -1) & (halo["FirstProgenitor"] > -1):
+        if(halo["SnapNum"] == lastsnap) & (halo["MainHalo"] == -1) & (halo["FirstProgenitor"] > -1):
             curid = haloid
             fulltree[ntrees] = []
             while curid > -1:
