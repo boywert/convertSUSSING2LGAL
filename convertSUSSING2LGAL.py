@@ -237,8 +237,8 @@ def readAHFascii():
                     lambda_bullock = 0.02
 
                 # because Boyd defined this way
-                halocat[hid]["Mvir"] = halocat[hid]["M_bound"]
-                halocat[hid]["Rvir"] = halocat[hid]["R_bound"]
+                halocat[hid]["Mvir"] = halocat[hid]["M_200Crit"]
+                halocat[hid]["Rvir"] = halo[halostruct['R200c']]
 
 
                 # use Peebles lambdaE definition to find angular momentum
