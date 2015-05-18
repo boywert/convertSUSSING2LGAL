@@ -12,7 +12,7 @@ SNAPfile = "/home/nifty2014/SemiAnalytics/DATA/125Mpc_Euclid/sussing_index.lst"
 # trees file
 FileOut = "./treedata/trees_107.0"
 # tree_dbids file
-FileOut2 = "./treedata/tree_dbids_107.0"a
+FileOut2 = "./treedata/tree_dbids_107.0"
 halostruct_file = "halostruct.py"
 # model to estimate spin
 # 99 ; Bullock2001 spin parameter = 0.02
