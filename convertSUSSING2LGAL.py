@@ -250,7 +250,7 @@ def readAHFascii():
                 # J = halo[20]*G*halocat[hid]["Mvir"]**(3./2.)/total_energy**(0.5)
                 if(lambda_bullock < 1e20):
                     J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
-                else if( (lambda_bullock > 1e20) & (lambda_peebles < 1e20)):
+                elif( (lambda_bullock > 1e20) & (lambda_peebles < 1e20)):
                     c = halo[halostruct['cNFW']]
                     F = c/2*(1.-1./(1.+c)**2 - 2.*numpy.log(1.+c)/(1.+c))/(c/(1.+c) - numpy.log(1.+c))**2
                     lambda_bullock = lambda_peebles*F**(-0.5)
