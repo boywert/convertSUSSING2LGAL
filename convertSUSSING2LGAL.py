@@ -232,7 +232,7 @@ def readAHFascii():
                 halocat[hid]["Vmax"] = halo[halostruct['Vmax']]
                 halocat[hid]["VelDisp"] = halo[halostruct['sigV']]
                 lambda_bullock = halo[halostruct['lambda']]
-                
+                lambda_peebles = halo[halostruct['lambdaE']]
                 if(spin_model == 99): # Boyd's stupid model
                     lambda_bullock = 0.02
 
@@ -248,8 +248,17 @@ def readAHFascii():
                 # total_energy = math.fabs((halo[38] + halo[39])*Msun2Gadget)
                 #halocat[hid]["LambdaE"] = halo[20]
                 # J = halo[20]*G*halocat[hid]["Mvir"]**(3./2.)/total_energy**(0.5)
-                J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
-                
+                if(lambda_bullock < 1e20):
+                    J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
+                else if (lambda_bullock > 1e20) & (lambda_peebles < 1e20):
+                    c = halo[halostruct['cNFW']]
+                    F = c/2*(1.-1./(1.+c)**2 - 2.*numpy.log(1.+c)/(1.+c))/(c/(1.+c) - numpy.log(1.+c))**2
+                    lambda_bullock = lambda_peebles*F**(-0.5)
+                    J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
+                else:
+                    lambda_bullock = 0.02
+                    J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
+                    
                 #halocat[hid]["TotalEnergy"] = total_energy
                 halocat[hid]["Spin"][0] = halo[halostruct['Lx']]*J
                 halocat[hid]["Spin"][1] = halo[halostruct['Ly']]*J
@@ -484,6 +493,7 @@ def outputtrees(halocat2,fileout,fileout2):
         print "trees are not isolated"
         exit()
 
+    
     fp = open(fileout,"wb")
     fp2 = open(fileout2,"wb")
     print "Ntrees:",ntrees
