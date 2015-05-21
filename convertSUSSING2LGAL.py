@@ -238,7 +238,7 @@ def readAHFascii():
 
                 # because Boyd defined this way
                 halocat[hid]["Mvir"] = halocat[hid]["M_200Crit"]
-                halocat[hid]["Rvir"] = halo[halostruct['R200c']]
+                halocat[hid]["Rvir"] = halo[halostruct['R200c']]*kpc2Mpc
 
 
                 # use Peebles lambdaE definition to find angular momentum
