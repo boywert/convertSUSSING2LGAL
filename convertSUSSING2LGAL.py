@@ -259,7 +259,7 @@ def readAHFascii():
                     lambda_bullock = 0.02
                     J = lambda_bullock*numpy.sqrt(2.0*G*halocat[hid]["Mvir"]*halocat[hid]["Rvir"])
 
-                print lambda_bullock
+                #print lambda_bullock
                 #halocat[hid]["TotalEnergy"] = total_energy
                 halocat[hid]["Spin"][0] = halo[halostruct['Lx']]*J
                 halocat[hid]["Spin"][1] = halo[halostruct['Ly']]*J
