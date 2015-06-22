@@ -579,7 +579,6 @@ def outputtrees(halocat2,fileout,fileout2):
             buffer = struct.pack("f",0.0) #Subhalfmass
             fp.write(buffer)
 
-
     fp.close()
     for tree in range(ntrees):
         lastprogid = fulltree[tree][len(fulltree[tree])-1]
@@ -589,20 +588,20 @@ def outputtrees(halocat2,fileout,fileout2):
             fp2.write(buffer)
             buffer = struct.pack("q",0)  #FileNr
             fp2.write(buffer)
-            buffer = struct.pack("q",maptreeall[halo["FirstProgenitor"]])
+            buffer = struct.pack("q",halo["FirstProgenitor"])
             fp2.write(buffer)
-            buffer = struct.pack("q",maptreeall[lastprogid])
+            buffer = struct.pack("q",lastprogid)
             fp2.write(buffer)
-            buffer = struct.pack("q",maptreeall[halo["NextProgenitor"]])
+            buffer = struct.pack("q",halo["NextProgenitor"])
             fp2.write(buffer)
-            buffer = struct.pack("q",maptreeall[halo["Descendant"]])
+            buffer = struct.pack("q",halo["Descendant"])
             fp2.write(buffer)
             if(halo["MainHalo"] > -1):
-                buffer = struct.pack("q",maptreeall[halo["MainHalo"]])
+                buffer = struct.pack("q",halo["MainHalo"])
             else:
-                buffer = struct.pack("q",maptreeall[halo["ID"]])
+                buffer = struct.pack("q",halo["ID"])
             fp2.write(buffer)
-            buffer = struct.pack("q",maptreeall[halo["NextHalo"]])
+            buffer = struct.pack("q",halo["NextHalo"])
             fp2.write(buffer)
             buffer = struct.pack("d",halo["Redshift"])
             fp2.write(buffer)
